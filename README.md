@@ -1,16 +1,17 @@
 human/api example application using nodejs/express
 ==================================================
 
-# Instructions
+Instructions
+------------
 
-## Install dependencies
+### Install dependencies
 
     $ npm install
 
-## Configure application for OAuth
+### Configure application for OAuth
 
   * 
 
-## Run the app
+### Run the app
 
     $ node app.js
