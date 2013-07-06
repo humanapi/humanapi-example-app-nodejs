@@ -1,5 +1,5 @@
-human/api example application using nodejs/express
-==================================================
+human/api example app using expressjs
+=====================================
 
 Instructions
 ------------
