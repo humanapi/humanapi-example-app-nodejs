@@ -4,10 +4,11 @@ var util = require('util');
 var HumanApiStrategy = require('passport-humanapi').Strategy;
 
 
+// Configure the application with you generated App ID and App Secret
+var HUMANAPI_APP_ID     =  "--INSERT-APP-ID-HERE--";
+var HUMANAPI_APP_SECRET =  "--INSERT-APP-SECRET-HERE--";
 
-var HUMANAPI_APP_ID  = "a57215453bfebf4046b7a47eaefbf192b71ab0b6";
-var HUMANAPI_APP_SECRET =  "fac1d909e44f0b6fe9b1e8951cd353631047bad9";
-var HUMANAPI_CALLBACK   =  "http://localhost:3000/auth/humanapi/callback";
+
 
 // Passport session setup.
 //   To support persistent login sessions, Passport needs to be able to
@@ -32,15 +33,15 @@ passport.deserializeUser(function(obj, done) {
 passport.use(new HumanApiStrategy({
     clientID:     HUMANAPI_APP_ID,
     clientSecret: HUMANAPI_APP_SECRET,
-    callbackURL:  HUMANAPI_CALLBACK,
+    callbackURL:  "http://localhost:3000/auth/humanapi/callback"
   },
   function(accessToken, refreshToken, profile, done) {
     // asynchronous verification, for effect...
+    process.nextTick(function () {
       console.log("HUMAN API PROFILE DATA")
       console.log(accessToken)
       console.log(refreshToken)
       console.log(profile)
-    process.nextTick(function () {
       // To keep the example simple, the user's HumanAPI profile is returned to
       // represent the logged-in user.  In a typical application, you would want
       // to associate the HumanAPI account with a user record in your database,
@@ -77,18 +78,11 @@ app.get('/', function(req, res){
   res.render('index', { user: req.user });
 });
 
-app.get('/account', ensureAuthenticated, function(req, res){
-  res.render('account', { user: req.user });
-});
-
-app.get('/login', function(req, res){
-  res.render('login', { user: req.user });
-});
-
 // Calling close works well when the authentication flow is opened up in a popup or modal window
 app.get('/close', function(req, res){
   res.render('close');
 });
+
 
 // GET /auth/humanapi
 //   Use passport.authenticate() as route middleware to authenticate the
@@ -108,7 +102,7 @@ app.get('/auth/humanapi',
 //   login page.  Otherwise, the primary route function function will be called,
 //   which, in this example, will redirect the user to the home page.
 app.get('/auth/humanapi/callback',
-  // passport.authenticate('humanapi', { failureRedirect: '/close' }),
+  passport.authenticate('humanapi', { failureRedirect: '/close' }),
   function(req, res) {
     // Call /close if the auth process is opened in a popup
     res.redirect('/close'); 
@@ -122,7 +116,7 @@ app.get('/logout', function(req, res){
 });
 
 app.listen(app.get('port'), function(){
-  console.log("[EXAMPLE-APP] Express server listening on port " + app.get('port'));
+  console.log("[HUMANAPI-EXAMPLE-APP] Express server listening on port " + app.get('port'));
 });
 
 function ensureAuthenticated(req, res, next) {
