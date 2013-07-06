@@ -12,12 +12,14 @@ var css = document.createElement("style");
   document.body.appendChild(css);
 
 function createHumanButton() {
-    var button = document.createElement("input");
-    button.setAttribute("type", "button");
-    button.setAttribute("value", "connect human/api");
+    var button = document.createElement("img");
+    button.setAttribute("src", "/img/connect-w.png")
+    // button.setAttribute("type", "button");
+    // button.setAttribute("value", "connect human/api");
     button.setAttribute("name", "humanAPIAuthButton");
-    button.setAttribute("class", "humanPopup");
-    button.setAttribute("background", "transparent url('img/connect-b.png') no-repeat;");
+    button.setAttribute("style", "width:50%;margin:auto;")
+    // button.setAttribute("class", "humanPopup");
+    // button.setAttribute("background", "transparent url('img/connect-b.png') no-repeat;");
 
     button.setAttribute("onclick", "authHumanAPI()");
     humanButton[0].appendChild(button);
@@ -30,7 +32,7 @@ function popupwindow(url, title, w, h) {
 }
 
 function authHumanAPI() {
-  var callback = humanButton[0].getAttribute('data-callback');
+  var callback = humanButton[0].getAttribute('data-target');
   popupwindow(callback, 'humanapi-auth', 600, humanButton[0].getAttribute('data-window-height'));
 }
 
